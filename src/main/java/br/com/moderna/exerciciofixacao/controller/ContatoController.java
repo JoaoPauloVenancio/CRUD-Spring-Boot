@@ -2,8 +2,12 @@ package br.com.moderna.exerciciofixacao.controller;
 
 import br.com.moderna.exerciciofixacao.domain.Contato;
 import br.com.moderna.exerciciofixacao.service.ContatoServive;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.util.UriComponentsBuilder;
 
+import javax.transaction.Transactional;
+import java.net.URI;
 import java.util.List;
 
 @RestController
@@ -15,7 +19,6 @@ public class ContatoController {
         this.contatoServive = contatoServive;
     }
 
-
     @GetMapping
     public List<Contato> listar() {
         return contatoServive.listar();
@@ -23,8 +26,7 @@ public class ContatoController {
 
     @GetMapping("/{id}")
     public Contato buscar(@PathVariable Long id) {
-       return contatoServive.buscar(id);
-
+        return contatoServive.buscar(id);
     }
 
     @PostMapping
@@ -34,9 +36,16 @@ public class ContatoController {
     }
 
     @DeleteMapping("/{id}")
-    public Contato deletar(@PathVariable Long id, Contato contato){
+    public Contato deletar(@PathVariable Long id, Contato contato) {
         contatoServive.deletar(id, contato);
         return contato;
     }
+
+    @PutMapping("/{id}")
+    public Contato atualizar(@PathVariable Long id, @RequestBody Contato contato) {
+        contatoServive.atualizar(id, contato);
+        return contato;
+    }
+
 
 }
